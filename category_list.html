@@ -1,0 +1,68 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+.thumbnail {
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .thumbnail:hover {
+    transform: scale(1.1);
+  }
+      .btn{
+    height: 40px;
+    border-radius: 10px;
+    border: 2px solid #000; 
+    background-color: #fff; 
+    color: #000; 
+    transition: background-color 0.3s, color 0.3s;  
+    font-family: cursive;
+    font-size: 17px;
+
+      }
+      h1 {
+    animation-duration: 8s;
+    animation-name: slidein;
+    animation-iteration-count: infinite;
+}
+
+@keyframes slidein {
+  0% {
+    margin-left: 0%;
+  }
+  50% {
+    margin-left: 300px;
+  }
+  100% {
+    margin-left: 0%;
+  }
+}
+</style>
+<section style="background-color: #eee;">
+      <div class="container py-5">
+      <div class="row">
+      <h1 class="text-center" id="BestSellers"style=" font-size: 40px; font-family:cursive; ">Products from {{category.name}} side of India</h1>
+      {% for product in products%}
+      
+      <div class="col-lg-4 pt-5 pb-5">
+            <div class="card" style="width: 22rem; margin-left: 24px; ">   
+                <a href="{{product.get_absolute_url}}"><img class="thumbnail" src="{{product.imageURL}}" style="height: 390px; object-fit: cover;"></a>
+                <div class="box-element product">
+                  <div class="card-body">
+                    <p class="card-text text-center" style="font-family: cursive; font-size: 22px;  ">{{product.title}}</p>
+                    <hr>
+                    <div style="text-align: center;">
+                    <button data-product={{product.id}} data-action="add" class="btn btn-outline-secondary add-to-cart-btn update-cart">Add to Cart</button>  
+                    <a class="btn btn-outline-success view-btn" href="{{product.get_absolute_url}}">View</a>
+                    <h4 style="display: inline-block; float: right; ">&#8377; {{product.price}}</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      {% endfor %}
+      </div>
+      </div>
+</section>
+{% endblock %}

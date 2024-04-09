@@ -1,0 +1,114 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<style>
+       .form-label {
+        font-size: 18px;
+        margin-bottom: 5px;
+        display: block;
+        border-radius: 5px; 
+        padding: 10px 20px; 
+         font-size: 16px; 
+        font-weight: bold; 
+        text-transform: uppercase; 
+        border: 2px solid #000; 
+        background-color: #fff; 
+        color: #000; 
+        transition: background-color 0.3s, color 0.3s; 
+        
+    }
+   
+    .btn {
+    border-radius: 5px; 
+    padding: 10px 20px; 
+    font-size: 16px; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    border: 2px solid #000; 
+    background-color: #fff; 
+    color: #000; 
+    transition: background-color 0.3s, color 0.3s; 
+}
+   
+   
+</style>
+<div class="container pt-5"></div>
+
+<section class="vh-100 bg-image"
+style="background-image: url('{% static 'images/Signup.jpg' %}');"
+  <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+    <div class="container h-100 p-5">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body p-5">
+              <h2 class="text-uppercase text-center mb-5" style="font-family: cursive;text-decoration: underline;">Create an account</h2>
+             
+    
+<div class="container">
+    <center>
+        <div class="container mx-auto">
+            <table width=30% cellpadding=10 >
+               <!--<tr>
+                    <td colspan=2 align=center><h1 class="mt-4 mb-4" style="font-family: cursive;">Sign Up</h1></td>
+                </tr>-->
+                {% if messages %}
+                    <div class="alert alert-danger">
+                        <ul>
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            
+            <form method="post" class="signup-form">
+                {% csrf_token %}
+                <tr>
+                    <div class="form-group">
+                    <td>  <label for="{{ user_form.username.id_for_label }}" class="form-label" style="font-family: cursive;">Username</label></td>
+                    <td> {{ user_form.username }} </td>
+                </div>
+                </tr>
+                <tr>
+                    <div class="form-group">
+                    <td> <label for="{{ user_form.password.id_for_label }}" class="form-label" style="font-family: cursive;">Password</label></td>
+                    <td>  {{ user_form.password }}</td>
+                </div>
+                </tr>
+                <tr>
+                    <div class="form-group">
+                    <td>  <label for="{{ customer_form.name.id_for_label }}" class="form-label" style="font-family: cursive;">Name</label></td>
+                    <td>  {{ customer_form.name }}</td>
+                </div>
+                </tr>
+                <tr>
+                    <div class="form-group">
+                    <td>  <label for="{{ customer_form.email.id_for_label }}" class="form-label" style="font-family: cursive;">Email</label></td>
+                    <td>  {{ customer_form.email }}</td>
+                </div>
+                </tr>
+                <tr>
+                    <div class="form-group">
+                    <td>  <label for="{{ customer_form.phone_no.id_for_label }}" class="form-label"  style="font-family: cursive; ">Phone Number</label></td>
+                    <td>  {{ customer_form.phone_no }}</td>
+                </div>
+                </tr> 
+                   
+               <tr>
+                <td colspan=2 align=center>  <button type="submit" class="btn btn-primary" style="font-family: cursive; font-size: 15px;">Sign Up</button></td>
+               </tr>  
+              
+            </form>
+        </table>
+        </div>
+        </center>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+{% endblock %}

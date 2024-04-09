@@ -1,0 +1,176 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+
+
+.btn {
+    border-radius: 5px; 
+    padding: 10px 20px; 
+    font-size: 16px; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    border: 2px solid #000; 
+    background-color: #fff; 
+    color: #000; 
+    transition: background-color 0.3s, color 0.3s; 
+}
+
+.btn:hover {
+    background-color: #000; 
+    color: #fff; 
+}
+
+.btn-outline-dark {
+    border: 2px solid #000;
+    color: #000; 
+}
+
+.btn-outline-dark:hover {
+    background-color: #000; 
+    color: #fff; 
+}
+
+.btn-success {
+    background-color: #28a745; 
+    border: none; 
+    color: #fff; 
+}
+
+.btn-success:hover {
+    background-color: #218838; 
+}
+
+body {
+    font-size: 16px; 
+    font-family: cursive; 
+}
+
+h5, p {
+    font-size: 18px; 
+}
+
+.table th, .table td {
+    font-size: 16px; 
+    border: 2px solid #000; 
+}
+
+.box-element {
+    margin-bottom: 20px; 
+}
+.cart-row {
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 10px; 
+}
+
+.row-image {
+    max-width: 100px; 
+    height: auto; 
+}
+
+.quantity {
+    display: flex; 
+    align-items: center; 
+}
+
+.quantity img {
+    cursor: pointer; 
+    margin-right: 5px; 
+}
+.checkout {
+  animation: wiggle 2s linear infinite;
+}
+
+/* Keyframes */
+@keyframes wiggle {
+  0%, 7% {
+    transform: rotateZ(0);
+  }
+  15% {
+    transform: rotateZ(-15deg);
+  }
+  20% {
+    transform: rotateZ(10deg);
+  }
+  25% {
+    transform: rotateZ(-10deg);
+  }
+  30% {
+    transform: rotateZ(6deg);
+  }
+  35% {
+    transform: rotateZ(-4deg);
+  }
+  40%, 100% {
+    transform: rotateZ(0);
+  }
+}
+
+
+
+.checkout {
+  background: linear-gradient(top, #555, #333);
+  border: none;
+  color: #fff;
+  
+  transform-origin: 50% 5em;
+}
+
+
+
+
+
+
+</style>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="box-element">
+            <a  class="btn btn-outline-dark" href="{% url 'store' %}">&#x2190; Continue Shopping</a>
+            <a  style="float:right; margin:5px;" class="btn btn-success checkout" href="{% url 'checkout' %}">Checkout</a>
+
+            <br>
+            <br>
+            <table class="table" style="text-align: center;">
+                <tr>
+                    
+                    <th><h4>Items: <strong>{{order.get_cart_items}}</strong></h5></th>
+                    <th><h4>Total:<strong> &#8377;{{order.get_cart_total}}</strong></h5></th>
+                    
+                </tr>
+            </table>
+		</div>
+
+		<br>
+		<div class="box-element" style="border: 2px solid #000;">
+                <div class="cart-row" style="font-size: 25px;">
+                    <div style="flex:2"></div>
+                    <div style="flex:2"><strong>Item</strong></div>
+                    <div style="flex:1"><strong>Price</strong></div>
+                    <div style="flex:1"><strong>Quantity</strong></div>
+                    <div style="flex:1"><strong>Total</strong></div>
+                </div>
+               
+            {% for item in items %}
+            <div class="cart-row" >
+            <div style="flex:2"><img class="row-image" src="{{item.product.imageURL}}"></div>
+            <div style="flex:2"><h5 style="font-size: 20px;">{{item.product.title}}</h5></div>
+            <div style="flex:1"><p>&#8377;{{item.product.price}}</p></div>
+            <div style="flex:1">
+                <p class="quantity">{{item.quantity}}</p>
+                <div class="quantity">
+                    <img data-product="{{item.product.id}}" data-action="add" class="chg-quantity update-cart" src="{% static  'images/arrow-up.png' %}">
+            
+                    <img data-product="{{item.product.id}}" data-action="remove" class="chg-quantity update-cart" src="{% static  'images/arrow-down.png' %}">
+                </div>
+            </div>
+            <div style="flex:1"><p>&#8377;{{item.get_total}}</p>
+        </div>
+		</div>
+        {% endfor %}
+	</div>
+</div>
+
+{% endblock %}

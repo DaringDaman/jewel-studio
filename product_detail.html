@@ -1,0 +1,143 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+<style>
+h3{
+    margin-top: 10px;
+    font-size: 15px;
+    font-family: cursive;
+    
+  }
+  h2{
+    animation-duration: 8s;
+    animation-name: slidein;
+    animation-iteration-count: infinite;
+}
+
+@keyframes slidein {
+  0% {
+    margin-left: 0%;
+  }
+  50% {
+    margin-left: 300px;
+  }
+  100% {
+    margin-left: 0%;
+  }
+}
+
+h5{
+  transition: transform 0.5s ease-in-out;
+}
+h5:hover {
+  transform: scale(1.1);
+}
+
+
+ .img-fluid {
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .img-fluid:hover {
+    transform: scale(1.1);
+  }
+  /* Animation property */
+ h1 {
+  animation: wiggle 2s linear infinite;
+}
+
+/* Keyframes */
+@keyframes wiggle {
+  0%, 7% {
+    transform: rotateZ(0);
+  }
+  15% {
+    transform: rotateZ(-15deg);
+  }
+  20% {
+    transform: rotateZ(10deg);
+  }
+  25% {
+    transform: rotateZ(-10deg);
+  }
+  30% {
+    transform: rotateZ(6deg);
+  }
+  35% {
+    transform: rotateZ(-4deg);
+  }
+  40%, 100% {
+    transform: rotateZ(0);
+  }
+}
+
+h1{
+  position: absolute;
+  
+  transform-origin: 50% 5em;
+}
+</style>
+<main class="pt-2">
+      <div class="container" style="max-width: 1000px;">
+        <div class="card" style="width: 55rem; margin-left: 22px; ">   
+        <div class="row g-3">
+         
+          <div class="col-12 d-flex justify-content-between"></div>
+    
+          <div class="col-md-5 ps-3 col-lg-5 order-md-last p-0 order-1">
+            <div class="d-grid gap-2 mt-5 pt-3">
+              <div class="card-body">
+              <div><h5 style="font-family: cursive; font-size: 30px; "> Category:{{product.category}}</h5></div>
+              <div style="font-family: cursive; font-size: 24px;text-decoration: underline; ">{{product.title}}</div>
+              <div class="d-flex d-flex-inline justify-content-between">
+                <div>
+                  <p style="font-family: cursive; font-size: 20px;  ">{{product.description}}</p>
+                  <span class="h3" style="font-family: cursive;">Rs. {{product.price}}</span>
+                  <p class="text-muted" style="font-family: cursive; font-size: 15px;">includes tax</p>
+                </div>
+                
+              </div>
+              
+  <h1><button data-product={{product.id}} data-action="add" value="" class="btn btn-success add-to-cart-btn update-cart" style="border-radius: 10px; font-family: cursive; font-size: 20px; border: 3px solid purple;"> Add to Cart </button></h1>
+</div>
+             </div>
+          </div>
+          <div class="col-md-7 col-lg-7 p-0">
+            <div class="card mb-3 border-0">
+              <div class="row g-0">
+                <div class="col-md-12">
+                    <div class="bg-light">
+                      <img class="img-fluid mx-auto d-block" alt="Responsive image" src="{{product.image.url}}" style="height: 600px; object-fit: cover; border: 4px solid purple;"/>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </main>
+    <h2 class="h5 text-uppercase mb-4 pt-5" style="font-size: 25px; font-family: cursive;">Related products</h2>
+    <div class="row">
+      <!-- PRODUCT-->
+      {% for sproduct in sproducts %}
+      <div class="col-xl-3 col-lg-4 col-sm-6">
+        <div class="product text-center">
+          <div class="position-relative mb-3">
+            <div class="badge text-white bg-"></div><a class="d-block" href="{{sproduct.get_absolute_url}}"><img class="img-fluid w-100 all-images" src="{{sproduct.imageURL}}" alt="..." style="height: 250px; border-radius: 20px;"></a>
+            <div class="product-overlay">
+              <ul class="mb-0 list-inline">
+                
+                <h3><li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-success update-cart" data-product={{sproduct.id}} data-action="add" >Add to cart</a></li></h3>
+             
+              </ul>
+            </div>
+          </div>
+          <h6> <a class="reset-anchor" href="{{sproduct.get_absolute_url}}" style="font-size: 20px;font-family: cursive;">{{sproduct.title}}</a></h6>
+          <p class="small text-muted"style="font-size: 20px;">&#8377;{{sproduct.price}}</p>
+        </div>
+      </div>
+      {% endfor %}
+
+{% endblock %}

@@ -1,0 +1,175 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>online store</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet"  type= "text/css" href="{% static 'css/main.css' %}">
+    <script type="text/javascript">
+      var user = '{{request.user}}'
+      function getToken(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getToken('csrftoken');
+    function getCookie(name) {
+      // Split cookie string and get all individual name=value pairs in an array
+      var cookieArr = document.cookie.split(";");
+
+      // Loop through the array elements
+      for(var i = 0; i < cookieArr.length; i++) {
+          var cookiePair = cookieArr[i].split("=");
+
+          /* Removing whitespace at the beginning of the cookie name
+          and compare it with the given string */
+          if(name == cookiePair[0].trim()) {
+              // Decode the cookie value and return
+              return decodeURIComponent(cookiePair[1]);
+          }
+      }
+
+      // Return null if not found
+      return null;
+  }
+  var cart = JSON.parse(getCookie('cart'))
+  if (cart == undefined){
+    cart = {}
+    console.log('Cart Created!', cart)
+    document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+  }
+  console.log('Cart :',cart)
+    
+    </script>
+   <style>
+     @keyframes slideIn {
+        from {
+            transform: translateX(-100%);
+        }
+        to {
+            transform: translateX(0);
+        }
+    }
+    .nav-link {
+        display: block;
+        padding: 10px;
+        border: 3px solid #ccc; /* Add a border */
+        border-radius: 20px; /* Add border-radius for rounded corners */
+        margin-bottom: 5px; /* Add margin bottom for spacing */
+        color: black; /* Set the text color */
+        font-size: 18px; /* Set the font size */
+        text-decoration: none; /* Remove default underline */
+        animation: slideIn 0.5s ease forwards;
+        background: linear-gradient(to right, #d400ff00, #1bbdda00); /* Example gradient */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Example box shadow */
+        
+    }
+   
+
+    .nav-link:hover {
+        background-color: #f0f0f0; /* Change background color on hover */
+        background: linear-gradient(to right, #a71bda, #ffbf00); 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+.btn-warning{
+  border-radius: 5px; 
+    padding: 10px 20px; 
+    font-size: 16px; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    border: 2px solid #000; 
+    background-color: #fff; 
+    color: #000; 
+    transition: background-color 0.3s, color 0.3s; 
+}
+.btn-success{
+  border-radius: 5px; 
+    padding: 10px 20px; 
+    font-size: 16px; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    border: 2px solid #000; 
+    background-color: #fff; 
+    color: #000; 
+    transition: background-color 0.3s, color 0.3s; 
+}
+
+</style>
+
+
+
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'store' %}" style="color: black; font-size: 26px; font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" >Jewel Studio</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          {% for category in categories %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{category.get_absolute_url}}" style="color: black; font-size: 21px; font-family:cursive;">{{category.name}}</a>
+          </li>
+          {% endfor %}
+          
+        </ul>
+
+        <form class="d-flex" action="/search/" method="get">
+          <input class="form-control mr-sm-2" style="border-radius: 15px; border: 4px solid purple; font-family: cursive; text-transform: uppercase; "type="search" name="query" placeholder="Search here" aria-label="Search">
+          <button class="btn btn-success my-2 my-sm-0" type="submit" style="border-radius: 15px;">Search <i class='fa fa-search'></i></button>
+        </form>
+
+        <form class="d-flex">
+          {% if user.is_authenticated %}
+              <a href="{% url 'logout' %}" class="btn btn-warning mx-2" style="border-radius: 15px;">LogOut</a>
+              {% else %}
+                <a href="{% url 'signup' %}" class="btn btn-warning mx-2" style="border-radius: 15px;">Register</a>
+                <a href="{% url 'login' %}" class="btn btn-warning mx-2" style="border-radius: 15px;">Login</a>
+
+                {% endif %}
+
+            
+   
+            <a href="{% url 'cart' %}">
+              <img  id="cart-icon" src="{% static 'images/cart.png' %}">
+            </a>
+           <p id="cart-total">{{cartItems}}</p>
+   
+        </form>
+      </div>
+    </div>
+  </nav>
+    <div class="container">   
+        {% block content %}
+
+        {% endblock %}
+    </div>
+    
+     
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+
+</body>
+</html>
